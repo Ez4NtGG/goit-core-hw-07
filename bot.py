@@ -188,14 +188,23 @@ def birthdays(book: AddressBook):
     return "\n".join(f"{entry['name']}: {entry['birthday']}" for entry in upcoming)
 
 def parse_input(user_input):
-    return user_input.split()
+    if not user_input.strip():  # Handle empty input
+        return "", []
+    parts = user_input.split()
+    return parts[0].lower(), parts[1:]
 
 def main():
     book = AddressBook()
     print("Welcome to the assistant bot!")
     while True:
         user_input = input("Enter a command: ")
-        command, *args = parse_input(user_input)
+        
+        # Handle empty input
+        if not user_input.strip():
+            print("Please enter a command.")
+            continue
+            
+        command, args = parse_input(user_input)
 
         if command in ["close", "exit"]:
             print("Good bye!")
